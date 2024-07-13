@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
