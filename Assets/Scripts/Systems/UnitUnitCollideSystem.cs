@@ -81,7 +81,7 @@ namespace DefaultNamespace
             private void StopEntity(Entity unitEntity)
             {
                 var unit = UnitLookup.GetRefRW(unitEntity);
-                Interlocked.Exchange(ref unit.ValueRW.CanMove, (int) 0);
+                Interlocked.Exchange(ref unit.ValueRW.CanMove, 0);
             }
             
             private void AttackEntity(Entity attacker, Entity defender)
