@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="Lane" src="project://database/Assets/UI%20Toolkit/Documents/Lane.uxml?fileID=9197481963319205126&amp;guid=3a9b9074a5dfcfc409b8b7c2e6d930f2&amp;type=3#Lane" />
+    <ui:Template name="Player" src="project://database/Assets/UI%20Toolkit/Documents/Player.uxml?fileID=9197481963319205126&amp;guid=6f1fac13d498a84479908723e8b6a0a7&amp;type=3#Player" />
+    <Style src="project://database/Assets/UI%20Toolkit/style.uss?fileID=7433441132597879392&amp;guid=d9bbfbab9724d1044a108725826eb519&amp;type=3#style" />
+    <DefaultNamespace.SafeAreaView style="height: 100%; margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto; width: 100%;">
+        <ui:Instance template="Lane" name="Lane1" class="lane" />
+        <ui:Instance template="Lane" name="Lane2" class="lane" />
+        <ui:Instance template="Lane" name="Lane3" class="lane" />
+        <ui:VisualElement style="flex-grow: 0; flex-direction: row; flex-shrink: 0; height: 25%; background-color: rgb(0, 0, 0);">
+            <ui:Instance template="Player" name="Player1" style="flex-grow: 1;" />
+            <ui:Instance template="Player" name="Player2" style="flex-grow: 1;" />
+        </ui:VisualElement>
+    </DefaultNamespace.SafeAreaView>
+</ui:UXML>

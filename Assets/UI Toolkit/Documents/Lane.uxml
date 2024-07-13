@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/style.uss?fileID=7433441132597879392&amp;guid=d9bbfbab9724d1044a108725826eb519&amp;type=3#style" />
+    <ui:VisualElement class="lane" style="flex-grow: 1;">
+        <ui:Button text="Spawn" name="Player1SpawnButton" class="spawnButton" />
+        <ui:Button text="Spawn" name="Player2SpawnButton" class="spawnButton" style="margin-top: 0; margin-right: 0; margin-left: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="LifeContainer" style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; height: 10%; min-height: 24px;" />
+    <ui:VisualElement style="flex-grow: 1; height: 90%; flex-direction: row;">
+        <ui:VisualElement name="CardContainer" style="flex-grow: 1;" />
+        <ui:VisualElement name="BoostContainer" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
