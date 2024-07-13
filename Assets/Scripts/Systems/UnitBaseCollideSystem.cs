@@ -47,16 +47,15 @@ namespace DefaultNamespace
 
             public void Execute(TriggerEvent triggerEvent)
             {
-                if (!TryGetUnits(triggerEvent, out var unitEntity, out var baseEntity)) return;
+                if (!TryGetUnitBase(triggerEvent, out var unitEntity, out var baseEntity)) return;
                 if (!AreDifferentPlayers(unitEntity, baseEntity)) return;
                 
                 // Add Score to unitEntity Tag
                 var tagScore = UnitLookup.GetRefRO(unitEntity).ValueRO.Tag;
-                Debug.Log($"Add Score to Player Tag {tagScore}");
                 CommandBuffer.DestroyEntity(unitEntity);
             }
 
-            private bool TryGetUnits(TriggerEvent triggerEvent, out Entity unitEntity, out Entity baseEntity)
+            private bool TryGetUnitBase(TriggerEvent triggerEvent, out Entity unitEntity, out Entity baseEntity)
             {
                 unitEntity = default;
                 baseEntity = default;
