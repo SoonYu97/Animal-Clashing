@@ -2,7 +2,6 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
-using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -41,6 +40,7 @@ namespace DefaultNamespace
             var simulation = SystemAPI.GetSingleton<SimulationSingleton>();
             var unitLookup = SystemAPI.GetComponentLookup<Unit>();
             var baseLookup = SystemAPI.GetComponentLookup<Base>();
+            
             var systemHandle = World.DefaultGameObjectInjectionWorld.GetExistingSystem<ScoringSystem>();
             ref var scoringSystem = ref state.WorldUnmanaged.GetUnsafeSystemRef<ScoringSystem>(systemHandle);
 
@@ -58,7 +58,7 @@ namespace DefaultNamespace
             while (eventQueue.TryDequeue(out var unitTouchBaseEvent))
             {
                 scoringSystem.ReduceLives(unitTouchBaseEvent.Tag, unitTouchBaseEvent.Damage);
-             }
+            }
         }
 
         [BurstCompile]

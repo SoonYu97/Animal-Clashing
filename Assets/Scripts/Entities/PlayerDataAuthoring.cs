@@ -21,6 +21,7 @@ namespace DefaultNamespace
                 {
                     Tag = authoring.Tag,
                     Lives = authoring.Lives,
+                    KillCount = 0,
                     UnitHealthModifier = authoring.UnitHealthModifier,
                     UnitStrengthModifier = authoring.UnitStrengthModifier,
                     UnitSpeedModifier = authoring.UnitSpeedModifier,

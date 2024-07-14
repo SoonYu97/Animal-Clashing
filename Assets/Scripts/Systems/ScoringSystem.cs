@@ -27,6 +27,7 @@ namespace DefaultNamespace
                     player2Data = playerData;
             }
         }
+        
         public void ReduceLives(PlayerTag tag, float damage)
         {
             if (tag == PlayerTag.Player1)
@@ -35,9 +36,13 @@ namespace DefaultNamespace
                 player2Data.ValueRW.Lives -= damage;
         }
         
-        public void Test()
+        public void IncreaseScore(PlayerTag tag, int score)
         {
-            Debug.Log("Test");
+            if (tag == PlayerTag.Player1)
+                player1Data.ValueRW.KillCount += score;
+            if (tag == PlayerTag.Player2)
+                player2Data.ValueRW.KillCount += score;
         }
+        
     }
 }

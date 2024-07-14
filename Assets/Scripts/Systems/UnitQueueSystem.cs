@@ -35,9 +35,8 @@ namespace DefaultNamespace
             nextUpdateTime = currentTime + laneConfig.UnitSpawnInterval;
 
             var random = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, 100000));
-            
-            AddUnitToQueue(ref unitQueue.Queue1, random);
-            AddUnitToQueue(ref unitQueue.Queue2, random);
+            AddUnitToQueue(ref unitQueue.Queue1, random.NextInt(0, unitTypes.Length));
+            AddUnitToQueue(ref unitQueue.Queue2, random.NextInt(0, unitTypes.Length));
             SystemAPI.SetSingleton(unitQueue);
         }
 
@@ -45,6 +44,11 @@ namespace DefaultNamespace
         {
             if (queue.Length >= laneConfig.MaximumUnitOnHand) return;
             var unitType = random.NextInt(0, unitTypes.Length);
+            queue.Add(unitType);
+        }
+
+        private void AddUnitToQueue(ref FixedList32Bytes<int> queue, int unitType)
+        {
             queue.Add(unitType);
         }
     }

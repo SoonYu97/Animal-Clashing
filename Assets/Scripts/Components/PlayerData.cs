@@ -10,5 +10,6 @@ namespace DefaultNamespace
         public float UnitStrengthModifier;
         public float UnitSpeedModifier;
         public float UnitAttackRateModifier;
+        public int KillCount;
     }
 }
