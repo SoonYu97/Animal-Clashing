@@ -9,20 +9,17 @@ namespace DefaultNamespace
     {
         private double nextUpdateTime;
         
-        private UnitQueue unitQueue;
         private LaneConfig laneConfig;
         private DynamicBuffer<UnitTypes> unitTypes;
 
         protected override void OnCreate()
         {
-            RequireForUpdate<UnitQueue>();
             RequireForUpdate<LaneConfig>();
             RequireForUpdate<UnitTypes>();
         }
 
         protected override void OnUpdate()
         {
-            unitQueue = SystemAPI.GetSingleton<UnitQueue>();
             laneConfig = SystemAPI.GetSingleton<LaneConfig>();
             unitTypes = SystemAPI.GetSingletonBuffer<UnitTypes>();
 
@@ -35,9 +32,11 @@ namespace DefaultNamespace
             nextUpdateTime = currentTime + laneConfig.UnitSpawnInterval;
 
             var random = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, 100000));
-            AddUnitToQueue(ref unitQueue.Queue1, random.NextInt(0, unitTypes.Length));
-            AddUnitToQueue(ref unitQueue.Queue2, random.NextInt(0, unitTypes.Length));
-            SystemAPI.SetSingleton(unitQueue);
+            
+            foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
+            {
+                playerData.ValueRW.Queue.Add(random.NextInt(0, unitTypes.Length));
+            }
         }
 
         private void AddUnitToQueue(ref FixedList32Bytes<int> queue, Unity.Mathematics.Random random)

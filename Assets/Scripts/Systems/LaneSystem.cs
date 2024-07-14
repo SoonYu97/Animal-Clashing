@@ -3,28 +3,33 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace DefaultNamespace
 {
     [BurstCompile]
     public partial class LaneSystem : SystemBase
     {
-        private RefRW<UnitQueue> unitQueue;
+        private RefRW<PlayerData> player1Data;
+        private RefRW<PlayerData> player2Data;
         private DynamicBuffer<UnitSpawnLocations> unitSpawnLocations;
         private DynamicBuffer<UnitTypes> unitTypes;
         
         protected override void OnCreate()
         {
             base.OnCreate();
-            RequireForUpdate<UnitQueue>();
             RequireForUpdate<UnitSpawnLocations>();
             RequireForUpdate<UnitTypes>();
         }
 
         protected override void OnUpdate()
         {
-            unitQueue = SystemAPI.GetSingletonRW<UnitQueue>();
+            foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
+            {
+                if (playerData.ValueRO.Tag == PlayerTag.Player1)
+                    player1Data = playerData;
+                if (playerData.ValueRO.Tag == PlayerTag.Player2)
+                    player2Data = playerData;
+            }
             unitSpawnLocations = SystemAPI.GetSingletonBuffer<UnitSpawnLocations>();
             unitTypes = SystemAPI.GetSingletonBuffer<UnitTypes>();
         }
@@ -50,15 +55,15 @@ namespace DefaultNamespace
         
         private FixedList32Bytes<int> GetQueueForPlayer(PlayerTag playerTag)
         {
-            return playerTag == PlayerTag.Player1 ? unitQueue.ValueRO.Queue1 : unitQueue.ValueRO.Queue2;
+            return playerTag.Equals(PlayerTag.Player1) ? player1Data.ValueRO.Queue : player2Data.ValueRO.Queue;
         }
         
         private void RemoveUnitFromQueue(PlayerTag playerTag, int index)
         {
             if (playerTag == PlayerTag.Player1)
-                unitQueue.ValueRW.Queue1.RemoveAt(index);
+                player1Data.ValueRW.Queue.RemoveAt(index);
             else
-                unitQueue.ValueRW.Queue2.RemoveAt(index);
+                player2Data.ValueRW.Queue.RemoveAt(index);
         }
         
         private float3 GetSpawnLocation(PlayerTag playerTag, int lane)

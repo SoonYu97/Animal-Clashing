@@ -1,4 +1,3 @@
-using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
@@ -36,11 +35,6 @@ namespace DefaultNamespace
                     UnitSpawnStartDelay = authoring.UnitSpawnStartDelay,
                     UnitSpawnInterval = authoring.UnitSpawnInterval,
                     MaximumUnitOnHand = authoring.MaximumUnitOnHand
-                });
-                AddComponent(entity, new UnitQueue
-                {
-                    Queue1 = new FixedList32Bytes<int>(),
-                    Queue2 = new FixedList32Bytes<int>()
                 });
                 var unitSpawnLocations = AddBuffer<UnitSpawnLocations>(entity);
                 unitSpawnLocations.CopyFrom(authoring.spawnLocations);
