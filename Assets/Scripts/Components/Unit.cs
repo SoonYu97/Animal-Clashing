@@ -10,6 +10,7 @@ namespace DefaultNamespace
         public float Speed;
         public int CanMove;
         public float AttackRate;
+        public float AttackRange;
         public double LastAttackTime;
     }
 }

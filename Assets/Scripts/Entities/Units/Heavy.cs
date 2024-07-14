@@ -3,13 +3,8 @@ using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class Heavy : MonoBehaviour
+    public class Heavy : BaseUnit
     {
-        public float Health;
-        public float Strength;
-        public float Speed;
-        public float AttackRate;
-        
         public class Baker : Baker<Heavy>
         {
             public override void Bake(Heavy authoring)
@@ -21,6 +16,7 @@ namespace DefaultNamespace
                     Strength = authoring.Strength,
                     Speed = authoring.Speed,
                     AttackRate = authoring.AttackRate,
+                    AttackRange = authoring.AttackRange,
                     LastAttackTime = 0,
                     CanMove = 1
                 });

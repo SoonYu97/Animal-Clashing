@@ -3,13 +3,8 @@ using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class Infantry : MonoBehaviour
+    public class Infantry : BaseUnit
     {
-        public float Health;
-        public float Strength;
-        public float Speed;
-        public float AttackRate;
-        
         public class Baker : Baker<Infantry>
         {
             public override void Bake(Infantry authoring)
@@ -21,6 +16,7 @@ namespace DefaultNamespace
                     Strength = authoring.Strength,
                     Speed = authoring.Speed,
                     AttackRate = authoring.AttackRate,
+                    AttackRange = authoring.AttackRange,
                     LastAttackTime = 0,
                     CanMove = 1
                 });
