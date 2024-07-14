@@ -128,13 +128,6 @@ namespace DefaultNamespace
             using var e = new NavigationSubmitEvent();
             e.target = button;
             button.SendEvent(e);
-            // foreach (var button in buttons)
-            // {
-            //     if (!button.ClassListContains("focused")) continue;
-            //     using var e = new NavigationSubmitEvent();
-            //     e.target = button;
-            //     button.SendEvent(e);
-            // }
         }
 
         private static int FindFocusedButtonIndex(params Button[] buttons)
