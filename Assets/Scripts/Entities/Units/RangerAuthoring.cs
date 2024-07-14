@@ -1,13 +1,12 @@
-using UnityEngine;
 using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class Infantry : BaseUnit
+    public class RangerAuthoring : BaseUnit
     {
-        public class Baker : Baker<Infantry>
+        public class Baker : Baker<RangerAuthoring>
         {
-            public override void Bake(Infantry authoring)
+            public override void Bake(RangerAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent(entity, new Unit

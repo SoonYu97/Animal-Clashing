@@ -3,13 +3,13 @@ using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class BaseEntity : MonoBehaviour
+    public class BaseAuthoring : MonoBehaviour
     {
         public PlayerTag Tag;
         
-        public class Baker : Baker<BaseEntity>
+        public class Baker : Baker<BaseAuthoring>
         {
-            public override void Bake(BaseEntity authoring)
+            public override void Bake(BaseAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.None);
                 AddComponent(entity, new Base

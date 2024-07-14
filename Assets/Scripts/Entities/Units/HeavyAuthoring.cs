@@ -1,13 +1,12 @@
-using UnityEngine;
 using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class Heavy : BaseUnit
+    public class HeavyAuthoring : BaseUnit
     {
-        public class Baker : Baker<Heavy>
+        public class Baker : Baker<HeavyAuthoring>
         {
-            public override void Bake(Heavy authoring)
+            public override void Bake(HeavyAuthoring authoring)
             {
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent(entity, new Unit

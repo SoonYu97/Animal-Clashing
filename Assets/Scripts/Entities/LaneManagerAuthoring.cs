@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class LaneManager : MonoBehaviour
+    public class LaneManagerAuthoring : MonoBehaviour
     {
         public GameObject[] UnitPrefabs;
         [Tooltip("Player 1 Lane 1,2,3; Player2 Lane 1,2,3")]
@@ -15,9 +15,9 @@ namespace DefaultNamespace
         private UnitSpawnLocations[] spawnLocations;
         private UnitTypes[] unitTypes;
         
-        public class Baker : Baker<LaneManager>
+        public class Baker : Baker<LaneManagerAuthoring>
         {
-            public override void Bake(LaneManager authoring)
+            public override void Bake(LaneManagerAuthoring authoring)
             {
                 authoring.spawnLocations = new UnitSpawnLocations[authoring.SpawnLocations.Length];
                 for (var i = 0; i < authoring.SpawnLocations.Length; i++)

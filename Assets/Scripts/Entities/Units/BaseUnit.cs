@@ -1,9 +1,8 @@
 using UnityEngine;
-using Unity.Entities;
 
 namespace DefaultNamespace
 {
-    public class BaseUnit : MonoBehaviour
+    public abstract class BaseUnit : MonoBehaviour
     {
         public float Health;
         public float Strength;
@@ -11,8 +10,6 @@ namespace DefaultNamespace
         public float AttackRate;
         public float AttackRange;
         
-        
-
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
