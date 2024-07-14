@@ -7,8 +7,8 @@
         <ui:Instance template="Lane" name="Lane2" class="lane" />
         <ui:Instance template="Lane" name="Lane3" class="lane" />
         <ui:VisualElement style="flex-grow: 0; flex-direction: row; flex-shrink: 0; height: 25%; background-color: rgb(0, 0, 0);">
-            <ui:Instance template="Player" name="Player1" style="flex-grow: 1;" />
-            <ui:Instance template="Player" name="Player2" style="flex-grow: 1;" />
+            <ui:Instance template="Player" name="Player1" class="player1" style="flex-grow: 1;" />
+            <ui:Instance template="Player" name="Player2" class="player2" style="flex-grow: 1;" />
         </ui:VisualElement>
     </DefaultNamespace.SafeAreaView>
 </ui:UXML>

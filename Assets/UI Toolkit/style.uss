@@ -31,3 +31,15 @@
     margin-right: 0;
     margin-bottom: 0;
 }
+
+#Player1 > .other-container {
+    flex-direction: row;
+}
+
+#Player2 > .other-container {
+    flex-direction: row-reverse;
+}
+
+#Player2 > .other-container > #CardContainer > Label {
+    -unity-text-align: upper-right;
+}

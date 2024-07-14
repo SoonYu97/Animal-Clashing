@@ -1,7 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/style.uss?fileID=7433441132597879392&amp;guid=d9bbfbab9724d1044a108725826eb519&amp;type=3#style" />
     <ui:VisualElement name="LifeContainer" style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; height: 10%; min-height: 24px;" />
-    <ui:VisualElement style="flex-grow: 1; height: 90%; flex-direction: row;">
-        <ui:VisualElement name="CardContainer" style="flex-grow: 1;" />
+    <ui:VisualElement class="other-container" style="flex-grow: 1; height: 90%;">
+        <ui:VisualElement name="CardContainer" style="flex-grow: 1;">
+            <ui:Label name="Unit1" display-tooltip-when-elided="false" triple-click-selects-line="false" double-click-selects-word="false" style="color: rgb(255, 255, 255);" />
+            <ui:Label name="Unit2" display-tooltip-when-elided="false" triple-click-selects-line="false" double-click-selects-word="false" style="color: rgb(255, 255, 255);" />
+            <ui:Label name="Unit3" display-tooltip-when-elided="false" triple-click-selects-line="false" double-click-selects-word="false" style="color: rgb(255, 255, 255);" />
+            <ui:Label name="Unit4" display-tooltip-when-elided="false" triple-click-selects-line="false" double-click-selects-word="false" style="color: rgb(255, 255, 255);" />
+            <ui:Label name="Unit5" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
         <ui:VisualElement name="BoostContainer" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>
