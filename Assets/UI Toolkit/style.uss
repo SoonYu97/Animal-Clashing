@@ -32,6 +32,15 @@
     margin-bottom: 0;
 }
 
+Label {
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+
+#LifeContainer {
+    margin-bottom: 18px;
+}
+
 #Player1 > .other-container {
     flex-direction: row;
 }
@@ -40,6 +49,36 @@
     flex-direction: row-reverse;
 }
 
+#Player1 > .other-container > #CardContainer > Label {
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    font-size: 18px;
+}
+
 #Player2 > .other-container > #CardContainer > Label {
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
     -unity-text-align: upper-right;
+    font-size: 18px;
+}
+
+#Player1 #Life {
+    color: rgb(255, 255, 255);
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+}
+
+#Player2 #Life {
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+    -unity-text-align: upper-right;
+    color: rgb(255, 255, 255);
 }
