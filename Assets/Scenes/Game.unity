@@ -304,6 +304,7 @@ GameObject:
   - component: {fileID: 405037849}
   - component: {fileID: 405037851}
   - component: {fileID: 405037852}
+  - component: {fileID: 405037853}
   m_Layer: 5
   m_Name: UIDocument
   m_TagString: Untagged
@@ -358,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LaneCount: 5
+  InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &405037852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +372,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2097dd8e993adf546a35340526088ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &405037853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405037848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7bb1ae7345494db5a9bab965387b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
