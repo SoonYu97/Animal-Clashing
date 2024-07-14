@@ -79,10 +79,15 @@ namespace DefaultNamespace
             public void Execute(TriggerEvent triggerEvent)
             {
                 if (!TryGetUnits(triggerEvent, out var unitEntityA, out var unitEntityB)) return;
-                if (!AreDifferentPlayers(unitEntityA, unitEntityB)) return;
-
-                StopAndAttackIfInRange(unitEntityA, unitEntityB);
-                StopAndAttackIfInRange(unitEntityB, unitEntityA);
+                if (AreDifferentPlayers(unitEntityA, unitEntityB))
+                {
+                    StopAndAttackIfInRange(unitEntityA, unitEntityB, GetAttackRangeSq(unitEntityA));
+                    StopAndAttackIfInRange(unitEntityB, unitEntityA, GetAttackRangeSq(unitEntityB));
+                }
+                else
+                {
+                    StopFriendlyIfInRange(unitEntityA, unitEntityB, 1);
+                }
             }
 
             private bool TryGetUnits(TriggerEvent triggerEvent, out Entity entityA, out Entity entityB)
@@ -98,7 +103,8 @@ namespace DefaultNamespace
 
             private bool AreDifferentPlayers(Entity entityA, Entity entityB)
             {
-                if (!UnitLookup.HasComponent(entityA) || !UnitLookup.HasComponent(entityB)) return false;
+                if (!UnitLookup.HasComponent(entityA) || !UnitLookup.HasComponent(entityB))
+                    return false;
 
                 var playerA = UnitLookup[entityA];
                 var playerB = UnitLookup[entityB];
@@ -106,17 +112,39 @@ namespace DefaultNamespace
                 return playerA.Tag != playerB.Tag;
             }
 
-            private void StopAndAttackIfInRange(Entity attackerEntity, Entity defenderEntity)
+            private void StopFriendlyIfInRange(Entity unit1, Entity unit2, float range)
             {
-                if (!IsInRange(attackerEntity, defenderEntity)) return;
-                StopEntity(attackerEntity);
-                AttackEntity(attackerEntity, defenderEntity);
+                if (!IsInRange(unit1, unit2, range))
+                    return;
+                var playerTag = UnitLookup[unit1].Tag;
+                if (playerTag == PlayerTag.Player1)
+                {
+                    StopEntity(LocalTransformLookup[unit1].Position.x > LocalTransformLookup[unit2].Position.x ? unit2 : unit1);
+                }
+                else
+                {
+                    StopEntity(LocalTransformLookup[unit1].Position.x < LocalTransformLookup[unit2].Position.x ? unit2 : unit1);
+                    
+                }
             }
 
-            private bool IsInRange(Entity attacker, Entity defender)
+            private void StopAndAttackIfInRange(Entity attacker, Entity defender, float range)
             {
-                var distanceSq = math.distancesq(LocalTransformLookup[attacker].Position, LocalTransformLookup[defender].Position);
-                return UnitLookup[attacker].AttackRange * UnitLookup[attacker].AttackRange > distanceSq;
+                if (!IsInRange(attacker, defender, range))
+                    return;
+                StopEntity(attacker);
+                AttackEntity(attacker, defender);
+            }
+
+            private float GetAttackRangeSq(Entity attacker)
+            {
+                return UnitLookup[attacker].AttackRange * UnitLookup[attacker].AttackRange;
+            }
+
+            private bool IsInRange(Entity unit1, Entity unit2, float range)
+            {
+                var distanceSq = math.distancesq(LocalTransformLookup[unit1].Position, LocalTransformLookup[unit2].Position);
+                return range > distanceSq;
             }
 
             private void StopEntity(Entity unitEntity)
