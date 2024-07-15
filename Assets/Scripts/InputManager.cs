@@ -2,7 +2,6 @@ using System;
 using Unity.Entities;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 namespace DefaultNamespace
@@ -41,12 +40,12 @@ namespace DefaultNamespace
             clickPlayer1 = gameplayActionMap.FindAction("ClickPlayer1");
             clickPlayer2 = gameplayActionMap.FindAction("ClickPlayer2");
 
-            moveUpPlayer1.performed += ctx => MovePlayer1Up();
-            moveDownPlayer1.performed += ctx => MovePlayer1Down();
-            moveUpPlayer2.performed += ctx => MovePlayer2Up();
-            moveDownPlayer2.performed += ctx => MovePlayer2Down();
-            clickPlayer1.performed += ctx => ClickFocusedButton(spawnButtons[0]);
-            clickPlayer2.performed += ctx => ClickFocusedButton(spawnButtons[1]);
+            moveUpPlayer1.performed += _ => MovePlayer1Up();
+            moveDownPlayer1.performed += _ => MovePlayer1Down();
+            moveUpPlayer2.performed += _ => MovePlayer2Up();
+            moveDownPlayer2.performed += _ => MovePlayer2Down();
+            clickPlayer1.performed += _=> laneSystem.SpawnUnitFor(PlayerTag.Player1, FindFocusedButtonIndex(spawnButtons[0]) + 1);
+            clickPlayer2.performed += _ => laneSystem.SpawnUnitFor(PlayerTag.Player2, FindFocusedButtonIndex(spawnButtons[1]) + 1);
         }
 
         private void OnEnable()
@@ -110,8 +109,10 @@ namespace DefaultNamespace
             spawnButtons[1][index] = lanes[index].Q<Button>($"Player2SpawnButton");
             spawnButtonClicked[0][index] = () => laneSystem.SpawnUnitFor(PlayerTag.Player1, laneCount);
             spawnButtonClicked[1][index] = () => laneSystem.SpawnUnitFor(PlayerTag.Player2, laneCount);
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
             spawnButtons[0][index].clicked += spawnButtonClicked[0][index];
             spawnButtons[1][index].clicked += spawnButtonClicked[1][index];
+#endif
         }
 
         private void SetInitialFocus()
@@ -126,11 +127,13 @@ namespace DefaultNamespace
 
         private void OnDestroy()
         {
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
             for (var i = 0; i < lanes.Length; i++)
             {
                 spawnButtons[0][i].clicked -= spawnButtonClicked[0][i];
                 spawnButtons[1][i].clicked -= spawnButtonClicked[1][i];
             }
+#endif
         }
 
         private void MovePlayer1Up()
@@ -174,14 +177,6 @@ namespace DefaultNamespace
             oldFocusButton.RemoveFromClassList("focused");
             newFocusButton.AddToClassList("focused");
             newFocusButton.Focus();
-        }
-
-        private static void ClickFocusedButton(Button[] buttons)
-        {
-            var button = buttons[FindFocusedButtonIndex(buttons)];
-            using var e = new NavigationSubmitEvent();
-            e.target = button;
-            button.SendEvent(e);
         }
 
         private static int FindFocusedButtonIndex(Button[] buttons)

@@ -1,14 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement name="RebindMenu" style="flex-grow: 1; flex-direction: row; width: 100%;">
         <ui:VisualElement style="flex-grow: 1; width: 50%;">
-            <ui:Button name="RebindMoveUpPlayer1Button" />
-            <ui:Button name="RebindMoveDownPlayer1Button" />
-            <ui:Button name="RebindSubmitPlayer1Button" />
+            <ui:Button name="RebindMoveUpPlayer1Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
+            <ui:Button name="RebindMoveDownPlayer1Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
+            <ui:Button name="RebindSubmitPlayer1Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; width: 50%;">
-            <ui:Button name="RebindMoveUpPlayer2Button" />
-            <ui:Button name="RebindMoveDownPlayer2Button" />
-            <ui:Button name="RebindSubmitPlayer2Button" />
+            <ui:Button name="RebindMoveUpPlayer2Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
+            <ui:Button name="RebindMoveDownPlayer2Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
+            <ui:Button name="RebindSubmitPlayer2Button" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
