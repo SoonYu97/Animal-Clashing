@@ -23,6 +23,8 @@ namespace DefaultNamespace
         private InputAction moveDownPlayer2;
         private InputAction clickPlayer1;
         private InputAction clickPlayer2;
+        
+        private GameStateManagerSystem gameStateManagerSystem;
 
         private void Awake()
         {
@@ -66,6 +68,10 @@ namespace DefaultNamespace
             moveDownPlayer2.Disable();
             clickPlayer1.Disable();
             clickPlayer2.Disable();
+            if (gameStateManagerSystem != null)
+            {
+                gameStateManagerSystem.GameEnd -= OnGameEnd;
+            }
         }
 
         private void Start()
@@ -74,6 +80,9 @@ namespace DefaultNamespace
             InitializeUIElements();
             InitializeButtonClickEvents();
             SetInitialFocus();
+            gameStateManagerSystem =
+                World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<GameStateManagerSystem>();
+            gameStateManagerSystem.GameEnd += OnGameEnd;
         }
 
         private void InitializeLaneSystem()
@@ -119,6 +128,11 @@ namespace DefaultNamespace
         {
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
 #else
+            for (var i = 0; i < lanes.Length; i++)
+            {
+                spawnButtons[0][i].RemoveFromClassList("focused");
+                spawnButtons[1][i].RemoveFromClassList("focused");
+            }
             var midLaneIndex = LaneCount % 2 == 0 ? (LaneCount / 2) : (LaneCount - 1) / 2;
             spawnButtons[0][midLaneIndex].AddToClassList("focused");
             spawnButtons[1][midLaneIndex].AddToClassList("focused");
@@ -134,6 +148,11 @@ namespace DefaultNamespace
                 spawnButtons[1][i].clicked -= spawnButtonClicked[1][i];
             }
 #endif
+        }
+
+        private void OnGameEnd(object sender, string _)
+        {
+            SetInitialFocus();
         }
 
         private void MovePlayer1Up()
