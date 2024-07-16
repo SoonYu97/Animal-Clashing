@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/StartScene.uss?fileID=7433441132597879392&amp;guid=6b154b93652ba1a428c5f1ed53a25883&amp;type=3#StartScene" />
+    <ui:VisualElement style="flex-grow: 1; width: 100%; height: 100%; background-color: rgba(255, 125, 125, 0.75); margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; align-items: center; justify-content: center;">
+        <ui:Label name="GameEnd" style="position: absolute; top: 10%; font-size: 32px;" />
+        <ui:Button text="Start" name="Start" class="home-button" />
+        <ui:Button text="Setting" name="Setting" class="home-button" />
+        <ui:Button text="Bye" name="Bye" class="home-button" />
+    </ui:VisualElement>
+</ui:UXML>

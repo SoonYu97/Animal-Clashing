@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using Unity.Collections;
 using Unity.Entities;
@@ -7,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace DefaultNamespace
 {
-    public class UIManager : MonoBehaviour
+    public class InGameUIManager : MonoBehaviour
     {
         private EntityManager entityManager;
         private NativeArray<Entity> entityArray;

@@ -23,6 +23,8 @@ namespace DefaultNamespace
                     Tag = authoring.Tag,
                     Lives = authoring.Lives,
                     KillCount = 0,
+                    InitialLives = authoring.Lives,
+                    InitialKillCount = 0,
                     UnitHealthModifier = authoring.UnitHealthModifier,
                     UnitStrengthModifier = authoring.UnitStrengthModifier,
                     UnitSpeedModifier = authoring.UnitSpeedModifier,
@@ -42,5 +44,7 @@ namespace DefaultNamespace
         public float UnitSpeedModifier;
         public float UnitAttackRateModifier;
         public int KillCount;
+        public float InitialLives;
+        public int InitialKillCount;
     }
 }

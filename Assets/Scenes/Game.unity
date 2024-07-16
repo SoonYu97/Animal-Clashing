@@ -669,9 +669,7 @@ GameObject:
   m_Component:
   - component: {fileID: 759257308}
   - component: {fileID: 759257307}
-  - component: {fileID: 759257306}
-  - component: {fileID: 759257305}
-  - component: {fileID: 759257304}
+  - component: {fileID: 759257309}
   m_Layer: 5
   m_Name: StartUI
   m_TagString: Untagged
@@ -679,45 +677,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &759257304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759257303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7bb1ae7345494db5a9bab965387b74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
---- !u!114 &759257305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759257303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2097dd8e993adf546a35340526088ceb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &759257306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 759257303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4810e2b135c4de38b6befc74688a8a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LaneCount: 5
-  InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!114 &759257307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,7 +692,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 1549c5c9d0835514baf1cdcca68efcb1, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 261d3256dcb0ff84284c62656a3121b0, type: 3}
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
   m_WorldSpaceHeight: 1080
@@ -752,6 +711,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &759257309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759257303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab2005c1521a42a8bac23413d0bca0f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIDocument: {fileID: 0}
 --- !u!1 &849353734
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1028,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1842199173}
-  - {fileID: 405037850}
   - {fileID: 759257308}
+  - {fileID: 405037850}
   - {fileID: 556132199}
