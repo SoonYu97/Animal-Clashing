@@ -35,6 +35,8 @@ namespace UnitInteraction
             var attackRangeSq = GetAttackRangeSq(attacker);
             StopAndAttackIfInRange(attacker, defender, attackRangeSq);
             StopAndAttackIfInRange(defender, attacker, GetAttackRangeSq(defender));
+            
+            commandBuffer.Dispose();
         }
 
         private float GetAttackRangeSq(Entity attacker)
@@ -51,7 +53,7 @@ namespace UnitInteraction
 
         private bool IsInRange(Entity unit1, Entity unit2, float range)
         {
-            float distanceSq = math.distancesq(localTransformLookup[unit1].Position, localTransformLookup[unit2].Position);
+            var distanceSq = math.distancesq(localTransformLookup[unit1].Position, localTransformLookup[unit2].Position);
             return range > distanceSq;
         }
 
