@@ -13,6 +13,7 @@ namespace DefaultNamespace
 
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<GameState>();
             state.RequireForUpdate<EndSimulationEntityCommandBufferSystem.Singleton>();
             state.RequireForUpdate<SimulationSingleton>();
 
@@ -26,6 +27,9 @@ namespace DefaultNamespace
 
         public void OnUpdate(ref SystemState state)
         {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            if (gameState.Value != GameState.State.Playing) return;
+
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
@@ -48,7 +52,7 @@ namespace DefaultNamespace
 
             state.Dependency.Complete();
             while (eventQueue.TryDequeue(out var unitTouchBaseEvent))
-                scoringSystem.ReduceLives(unitTouchBaseEvent.Tag, unitTouchBaseEvent.Damage);
+                scoringSystem.ReduceLives(unitTouchBaseEvent.Tag, unitTouchBaseEvent.Damage, ref state);
         }
     }
 }

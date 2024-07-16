@@ -8,22 +8,36 @@ namespace DefaultNamespace
     internal partial struct UnitResetMovementSystem : ISystem
     {
         [BurstCompile]
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<GameState>();
+        }
+
+        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            if (gameState.Value != GameState.State.Playing) return;
             foreach (var unit in SystemAPI
                          .Query<RefRW<Unit>>())
-            {
                 unit.ValueRW.CanMove = 1;
-            }
         }
     }
-    
+
     [UpdateAfter(typeof(UnitUnitCollideSystem))]
     internal partial struct UnitMovementSystem : ISystem
     {
         [BurstCompile]
+        public void OnCreate(ref SystemState state)
+        {
+            state.RequireForUpdate<GameState>();
+        }
+
+        [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            if (gameState.Value != GameState.State.Playing) return;
             foreach (var (localTransform, unit) in SystemAPI
                          .Query<RefRW<LocalTransform>, RefRO<Unit>>())
             {
