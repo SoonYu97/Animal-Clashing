@@ -1,7 +1,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Mathematics;
+using Random = Unity.Mathematics.Random;
 
 namespace DefaultNamespace
 {
@@ -9,9 +9,6 @@ namespace DefaultNamespace
     public partial class UnitQueueSystem : SystemBase
     {
         private double nextUpdateTime;
-
-        private LaneConfig laneConfig;
-        private DynamicBuffer<UnitTypes> unitTypes;
 
         protected override void OnCreate()
         {
@@ -22,35 +19,58 @@ namespace DefaultNamespace
 
         protected override void OnUpdate()
         {
-            var gameState = SystemAPI.GetSingleton<GameState>();
-            if (gameState.Value != GameState.State.Playing) return;
+            if (!IsGamePlaying()) return;
 
-            laneConfig = SystemAPI.GetSingleton<LaneConfig>();
-            unitTypes = SystemAPI.GetSingletonBuffer<UnitTypes>();
+            var laneConfig = SystemAPI.GetSingleton<LaneConfig>();
+            var unitTypes = SystemAPI.GetSingletonBuffer<UnitTypes>();
 
-            if (nextUpdateTime == 0)
-                nextUpdateTime = SystemAPI.Time.ElapsedTime + laneConfig.UnitSpawnStartDelay;
+            if (!IsTimeToUpdate(laneConfig)) return;
+            ScheduleNextUpdate(laneConfig);
 
-            var currentTime = SystemAPI.Time.ElapsedTime;
-            if (currentTime < nextUpdateTime)
-                return;
-            nextUpdateTime = currentTime + laneConfig.UnitSpawnInterval;
-
-            var random = new Random((uint)UnityEngine.Random.Range(1, 100000));
-
-            foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
-                playerData.ValueRW.Queue.Add(random.NextInt(0, unitTypes.Length));
+            var random = CreateRandom();
+            UpdatePlayerQueues(unitTypes, random);
         }
 
-        private void AddUnitToQueue(ref FixedList32Bytes<int> queue, Random random)
+        private bool IsGamePlaying()
         {
-            if (queue.Length >= laneConfig.MaximumUnitOnHand) return;
-            var unitType = random.NextInt(0, unitTypes.Length);
-            queue.Add(unitType);
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            return gameState.Value == GameState.State.Playing;
+        }
+
+        private bool IsTimeToUpdate(LaneConfig laneConfig)
+        {
+            var currentTime = SystemAPI.Time.ElapsedTime;
+            if (nextUpdateTime == 0)
+            {
+                nextUpdateTime = currentTime + laneConfig.UnitSpawnStartDelay;
+                return false;
+            }
+            return currentTime >= nextUpdateTime;
+        }
+
+        private void ScheduleNextUpdate(LaneConfig laneConfig)
+        {
+            var currentTime = SystemAPI.Time.ElapsedTime;
+            nextUpdateTime = currentTime + laneConfig.UnitSpawnInterval;
+        }
+
+        private Random CreateRandom()
+        {
+            return new Random((uint)UnityEngine.Random.Range(1, 100000));
+        }
+
+        private void UpdatePlayerQueues(DynamicBuffer<UnitTypes> unitTypes, Random random)
+        {
+            foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
+            {
+                AddUnitToQueue(ref playerData.ValueRW.Queue, random.NextInt(0, unitTypes.Length));
+            }
         }
 
         private void AddUnitToQueue(ref FixedList32Bytes<int> queue, int unitType)
         {
+            var laneConfig = SystemAPI.GetSingleton<LaneConfig>();
+            if (queue.Length >= laneConfig.MaximumUnitOnHand) return;
             queue.Add(unitType);
         }
     }

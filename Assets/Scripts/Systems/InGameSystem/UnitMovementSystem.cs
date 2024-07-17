@@ -16,11 +16,16 @@ namespace DefaultNamespace
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var gameState = SystemAPI.GetSingleton<GameState>();
-            if (gameState.Value != GameState.State.Playing) return;
+            if (!IsGamePlaying(ref state)) return;
             foreach (var unit in SystemAPI
                          .Query<RefRW<Unit>>())
                 unit.ValueRW.CanMove = 1;
+        }
+
+        private bool IsGamePlaying(ref SystemState state)
+        {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            return gameState.Value == GameState.State.Playing;
         }
     }
 
@@ -36,8 +41,7 @@ namespace DefaultNamespace
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var gameState = SystemAPI.GetSingleton<GameState>();
-            if (gameState.Value != GameState.State.Playing) return;
+            if (!IsGamePlaying(ref state)) return;
             foreach (var (localTransform, unit) in SystemAPI
                          .Query<RefRW<LocalTransform>, RefRO<Unit>>())
             {
@@ -47,6 +51,12 @@ namespace DefaultNamespace
                 position.x += unit.ValueRO.Speed * SystemAPI.Time.DeltaTime * direction;
                 localTransform.ValueRW.Position = position;
             }
+        }
+
+        private bool IsGamePlaying(ref SystemState state)
+        {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            return gameState.Value == GameState.State.Playing;
         }
     }
 }

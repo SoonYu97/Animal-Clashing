@@ -35,8 +35,6 @@ namespace UnitInteraction
             var attackRangeSq = GetAttackRangeSq(attacker);
             StopAndAttackIfInRange(attacker, defender, attackRangeSq);
             StopAndAttackIfInRange(defender, attacker, GetAttackRangeSq(defender));
-            
-            commandBuffer.Dispose();
         }
 
         private float GetAttackRangeSq(Entity attacker)

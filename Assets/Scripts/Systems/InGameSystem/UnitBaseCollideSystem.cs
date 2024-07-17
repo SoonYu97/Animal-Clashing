@@ -27,19 +27,14 @@ namespace DefaultNamespace
 
         public void OnUpdate(ref SystemState state)
         {
-            var gameState = SystemAPI.GetSingleton<GameState>();
-            if (gameState.Value != GameState.State.Playing) return;
+            if (!IsGamePlaying(ref state)) return;
 
-            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-            var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
+            var ecb = CreateCommandBuffer(ref state);
             var simulation = SystemAPI.GetSingleton<SimulationSingleton>();
             var unitLookup = SystemAPI.GetComponentLookup<Unit>();
             var baseLookup = SystemAPI.GetComponentLookup<Base>();
 
-            var systemHandle = World.DefaultGameObjectInjectionWorld.GetExistingSystem<ScoringSystem>();
-            ref var scoringSystem = ref state.WorldUnmanaged.GetUnsafeSystemRef<ScoringSystem>(systemHandle);
-
+            var scoringSystem = GetScoringSystem(ref state);
             var eventQueueParallel = eventQueue.AsParallelWriter();
 
             state.Dependency = new UnitBaseTriggerEventJob
@@ -49,7 +44,29 @@ namespace DefaultNamespace
                 CommandBuffer = ecb,
                 EventQueueParallel = eventQueueParallel
             }.Schedule(simulation, state.Dependency);
+            ProcessEventQueue(ref scoringSystem, ref state);
+        }
 
+        private bool IsGamePlaying(ref SystemState state)
+        {
+            var gameState = SystemAPI.GetSingleton<GameState>();
+            return gameState.Value == GameState.State.Playing;
+        }
+
+        private EntityCommandBuffer CreateCommandBuffer(ref SystemState state)
+        {
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+            return ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
+        }
+
+        private ref ScoringSystem GetScoringSystem(ref SystemState state)
+        {
+            var systemHandle = World.DefaultGameObjectInjectionWorld.GetExistingSystem<ScoringSystem>();
+            return ref state.WorldUnmanaged.GetUnsafeSystemRef<ScoringSystem>(systemHandle);
+        }
+
+        private void ProcessEventQueue(ref ScoringSystem scoringSystem, ref SystemState state)
+        {
             state.Dependency.Complete();
             while (eventQueue.TryDequeue(out var unitTouchBaseEvent))
                 scoringSystem.ReduceLives(unitTouchBaseEvent.Tag, unitTouchBaseEvent.Damage, ref state);
