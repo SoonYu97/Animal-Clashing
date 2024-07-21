@@ -4,6 +4,7 @@ namespace DefaultNamespace
 {
     public abstract class BaseUnit : MonoBehaviour
     {
+        public UnitType UnitType;
         public float Health;
         public float Strength;
         public float Speed;

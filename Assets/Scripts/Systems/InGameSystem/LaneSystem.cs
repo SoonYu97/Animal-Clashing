@@ -29,12 +29,13 @@ namespace DefaultNamespace
             if (IsLocationOccupied(spawnLocation)) return;
             if (!TryGetFirstUnitTypeFromQueue(playerData, out var unitType)) return;
             
-            var unitEntity = EntityManager.Instantiate(unitTypes[unitType].Unit);
+            var unitEntity = EntityManager.Instantiate(unitTypes[(int) unitType].Unit);
             
             EntityManager.SetComponentData(unitEntity, LocalTransform.FromPosition(spawnLocation));
             
             var unit = SystemAPI.GetComponentRW<Unit>(unitEntity);
             unit.ValueRW.Tag = playerTag;
+            unit.ValueRW.UnitType = unitType;
         }
 
         private RefRW<PlayerData> GetPlayerData(PlayerTag playerTag)
@@ -47,13 +48,13 @@ namespace DefaultNamespace
             return default;
         }
         
-        private bool TryGetFirstUnitTypeFromQueue(RefRW<PlayerData> playerData, out int unitType)
+        private bool TryGetFirstUnitTypeFromQueue(RefRW<PlayerData> playerData, out UnitType unitType)
         {
             unitType = 0;
-            var queue = playerData.ValueRO.Queue;
+            var queue = playerData.ValueRO.UnitQueue;
             if (queue.IsEmpty) return false;
             unitType = queue[0];
-            playerData.ValueRW.Queue.RemoveAt(0);
+            playerData.ValueRW.UnitQueue.RemoveAt(0);
             return true;
         }
         

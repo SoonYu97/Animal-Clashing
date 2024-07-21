@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2aa678eefeb4ead951b8ae231299baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UnitType: 0
   Health: 60
   Strength: 15
   Speed: 2

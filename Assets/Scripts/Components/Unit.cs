@@ -4,6 +4,7 @@ namespace DefaultNamespace
 {
     public struct Unit : IComponentData
     {
+        public UnitType UnitType;
         public PlayerTag Tag;
         public float Health;
         public float Strength;

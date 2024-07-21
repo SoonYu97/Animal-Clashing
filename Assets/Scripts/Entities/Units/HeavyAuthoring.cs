@@ -11,6 +11,7 @@ namespace DefaultNamespace
                 var entity = GetEntity(TransformUsageFlags.Dynamic);
                 AddComponent(entity, new Unit
                 {
+                    UnitType = authoring.UnitType,
                     Health = authoring.Health,
                     Strength = authoring.Strength,
                     Speed = authoring.Speed,

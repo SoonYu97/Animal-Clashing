@@ -80,26 +80,26 @@ namespace DefaultNamespace
 
         private void UpdateUnitsLabel()
         {
-            for (var idx = 0; idx < playerData1.Queue.Length; idx++)
+            for (var idx = 0; idx < playerData1.UnitQueue.Length; idx++)
             {
-                var unitType = playerData1.Queue[idx];
+                var unitType = playerData1.UnitQueue[idx];
                 player1Units[idx].text = unitType switch
                 {
-                    0 => "Infantry",
-                    1 => "Heavy",
-                    2 => "Range",
+                    UnitType.Infantry => "Infantry",
+                    UnitType.Heavy => "Heavy",
+                    UnitType.Ranger => "Ranger",
                     _ => ""
                 };
             }
 
-            for (var idx = 0; idx < playerData2.Queue.Length; idx++)
+            for (var idx = 0; idx < playerData2.UnitQueue.Length; idx++)
             {
-                var unitType = playerData2.Queue[idx];
+                var unitType = playerData2.UnitQueue[idx];
                 player2Units[idx].text = unitType switch
                 {
-                    0 => "Infantry",
-                    1 => "Heavy",
-                    2 => "Range",
+                    UnitType.Infantry => "Infantry",
+                    UnitType.Heavy => "Heavy",
+                    UnitType.Ranger => "Ranger",
                     _ => ""
                 };
             }

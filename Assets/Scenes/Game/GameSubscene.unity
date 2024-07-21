@@ -979,10 +979,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db04d84f6a58f3445bae38ff9b071be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitPrefabs:
-  - {fileID: 8073878037635950493, guid: 53c772bfee2fe2d4eb9137f2838feeb8, type: 3}
-  - {fileID: 5625273987634717883, guid: 9ad6a59d8ebbfd24da0048412dc6c119, type: 3}
-  - {fileID: 2027860661436068049, guid: 90e486b618651c34ea94d639a55c441d, type: 3}
+  UnitPrefabSpawnWeight:
+  - UnitPrefab: {fileID: 8073878037635950493, guid: 53c772bfee2fe2d4eb9137f2838feeb8, type: 3}
+    SpawnWeight: 5
+  - UnitPrefab: {fileID: 5625273987634717883, guid: 9ad6a59d8ebbfd24da0048412dc6c119, type: 3}
+    SpawnWeight: 0
+  - UnitPrefab: {fileID: 2027860661436068049, guid: 90e486b618651c34ea94d639a55c441d, type: 3}
+    SpawnWeight: 0
   SpawnLocations:
   - {fileID: 2113373100}
   - {fileID: 1895498047}

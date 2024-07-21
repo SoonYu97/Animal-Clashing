@@ -61,13 +61,27 @@ namespace DefaultNamespace
 
         private void UpdatePlayerQueues(DynamicBuffer<UnitTypes> unitTypes, Random random)
         {
+            var totalWeight = 0;
+            foreach (var unitType in unitTypes)
+            {
+                totalWeight += unitType.SpawnWeight;
+            }
+
             foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
             {
-                AddUnitToQueue(ref playerData.ValueRW.Queue, random.NextInt(0, unitTypes.Length));
+                var randomValue  = random.NextInt(0, totalWeight);
+                var cumulativeWeight = 0;
+                for (var i = 0; i < unitTypes.Length; i++)
+                {
+                    cumulativeWeight += unitTypes[i].SpawnWeight;
+                    if (randomValue >= cumulativeWeight) continue;
+                    AddUnitToQueue(ref playerData.ValueRW.UnitQueue, (UnitType) i);
+                    break;
+                }
             }
         }
 
-        private void AddUnitToQueue(ref FixedList32Bytes<int> queue, int unitType)
+        private void AddUnitToQueue(ref FixedList32Bytes<UnitType> queue, UnitType unitType)
         {
             var laneConfig = SystemAPI.GetSingleton<LaneConfig>();
             if (queue.Length >= laneConfig.MaximumUnitOnHand) return;

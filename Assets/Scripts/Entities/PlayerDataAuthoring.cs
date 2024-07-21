@@ -37,7 +37,7 @@ namespace DefaultNamespace
     public struct PlayerData : IComponentData
     {
         public PlayerTag Tag;
-        public FixedList32Bytes<int> Queue;
+        public FixedList32Bytes<UnitType> UnitQueue;
         public float Lives;
         public float UnitHealthModifier;
         public float UnitStrengthModifier;
