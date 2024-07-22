@@ -37,13 +37,21 @@ namespace DefaultNamespace
         private void SetUnitAttributes(PlayerTag playerTag, Entity unitEntity, UnitType unitType)
         {
             var unit = SystemAPI.GetComponentRW<Unit>(unitEntity);
-            var playerData = GetPlayerData(playerTag);
+            var attributeMultipliers = GetPlayerUnitAttribute(playerTag);
             unit.ValueRW.Tag = playerTag;
             unit.ValueRW.UnitType = unitType;
-            unit.ValueRW.Health = unit.ValueRO.Health * playerData.ValueRO.UnitHealthModifier;
-            unit.ValueRW.Strength = unit.ValueRO.Strength * playerData.ValueRO.UnitStrengthModifier;
-            unit.ValueRW.Speed = unit.ValueRO.Speed * playerData.ValueRO.UnitSpeedModifier;
-            unit.ValueRW.AttackRate = unit.ValueRO.AttackRate * playerData.ValueRO.UnitAttackRateModifier;
+            foreach (var attributeMultiplier in attributeMultipliers)
+            {
+                if (attributeMultiplier.UnitType != unitType)
+                    continue;
+                unit.ValueRW.Health = unit.ValueRO.Health * attributeMultiplier.UnitHealthModifier;
+                unit.ValueRW.Strength = unit.ValueRO.Strength * attributeMultiplier.UnitStrengthModifier;
+                unit.ValueRW.Speed = unit.ValueRO.Speed * attributeMultiplier.UnitSpeedModifier;
+                unit.ValueRW.AttackRate = unit.ValueRO.AttackRate * attributeMultiplier.UnitAttackRateModifier;
+                unit.ValueRW.AttackRange = unit.ValueRO.AttackRange * attributeMultiplier.UnitAttackRangeModifier;
+                break;
+            }
+            
         }
 
         private RefRW<PlayerData> GetPlayerDataRW(PlayerTag playerTag)
@@ -56,12 +64,12 @@ namespace DefaultNamespace
             return default;
         }
 
-        private RefRO<PlayerData> GetPlayerData(PlayerTag playerTag)
+        private DynamicBuffer<AttributeMultiplier> GetPlayerUnitAttribute(PlayerTag playerTag)
         {
-            foreach (var playerData in SystemAPI.Query<RefRO<PlayerData>>())
+            foreach (var (playerData, entity) in SystemAPI.Query<RefRO<PlayerData>>().WithEntityAccess())
             {
                 if (playerData.ValueRO.Tag == playerTag)
-                    return playerData;
+                    return SystemAPI.GetBuffer<AttributeMultiplier>(entity);
             }
             return default;
         }

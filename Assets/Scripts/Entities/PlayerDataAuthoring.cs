@@ -11,10 +11,6 @@ namespace DefaultNamespace
     {
         public PlayerTag Tag;
         public float Lives = 100f;
-        public float UnitHealthModifier = 1f;
-        public float UnitStrengthModifier = 1f;
-        public float UnitSpeedModifier = 1f;
-        public float UnitAttackRateModifier = 1f;
 
         public class Baker : Baker<PlayerDataAuthoring>
         {
@@ -26,6 +22,7 @@ namespace DefaultNamespace
                 multipliers.AddRange(from object unitType in unitTypes
                     select new AttributeMultiplier
                     {
+                        UnitType = (UnitType) unitType,
                         UnitHealthModifier = 1,
                         UnitStrengthModifier = 1,
                         UnitSpeedModifier = 1,
@@ -38,11 +35,7 @@ namespace DefaultNamespace
                     Lives = authoring.Lives,
                     KillCount = 0,
                     InitialLives = authoring.Lives,
-                    InitialKillCount = 0,
-                    UnitHealthModifier = authoring.UnitHealthModifier,
-                    UnitStrengthModifier = authoring.UnitStrengthModifier,
-                    UnitSpeedModifier = authoring.UnitSpeedModifier,
-                    UnitAttackRateModifier = authoring.UnitAttackRateModifier
+                    InitialKillCount = 0
                 });
                 var attributeMultipliers = AddBuffer<AttributeMultiplier>(entity);
                 attributeMultipliers.CopyFrom(multipliers.ToArray());
@@ -55,10 +48,6 @@ namespace DefaultNamespace
         public PlayerTag Tag;
         public FixedList32Bytes<UnitType> UnitQueue;
         public float Lives;
-        public float UnitHealthModifier;
-        public float UnitStrengthModifier;
-        public float UnitSpeedModifier;
-        public float UnitAttackRateModifier;
         public int KillCount;
         public float InitialLives;
         public int InitialKillCount;
