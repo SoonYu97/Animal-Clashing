@@ -1,6 +1,6 @@
 namespace DefaultNamespace
 {
-    public enum UnitType
+    public enum UnitType : byte
     {
         Infantry,
         Heavy,

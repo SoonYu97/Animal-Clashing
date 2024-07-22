@@ -1,5 +1,4 @@
 using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -22,23 +21,32 @@ namespace DefaultNamespace
         
         public void SpawnUnitFor(PlayerTag playerTag, int lane)
         {
-            var playerData = GetPlayerData(playerTag);
             var spawnLocation = GetSpawnLocation(playerTag, lane);
             var unitTypes = SystemAPI.GetSingletonBuffer<UnitTypes>();
             
             if (IsLocationOccupied(spawnLocation)) return;
-            if (!TryGetFirstUnitTypeFromQueue(playerData, out var unitType)) return;
+            if (!TryGetFirstUnitTypeFromQueue(playerTag, out var unitType)) return;
             
             var unitEntity = EntityManager.Instantiate(unitTypes[(int) unitType].Unit);
             
             EntityManager.SetComponentData(unitEntity, LocalTransform.FromPosition(spawnLocation));
             
-            var unit = SystemAPI.GetComponentRW<Unit>(unitEntity);
-            unit.ValueRW.Tag = playerTag;
-            unit.ValueRW.UnitType = unitType;
+            SetUnitAttributes(playerTag, unitEntity, unitType);
         }
 
-        private RefRW<PlayerData> GetPlayerData(PlayerTag playerTag)
+        private void SetUnitAttributes(PlayerTag playerTag, Entity unitEntity, UnitType unitType)
+        {
+            var unit = SystemAPI.GetComponentRW<Unit>(unitEntity);
+            var playerData = GetPlayerData(playerTag);
+            unit.ValueRW.Tag = playerTag;
+            unit.ValueRW.UnitType = unitType;
+            unit.ValueRW.Health = unit.ValueRO.Health * playerData.ValueRO.UnitHealthModifier;
+            unit.ValueRW.Strength = unit.ValueRO.Strength * playerData.ValueRO.UnitStrengthModifier;
+            unit.ValueRW.Speed = unit.ValueRO.Speed * playerData.ValueRO.UnitSpeedModifier;
+            unit.ValueRW.AttackRate = unit.ValueRO.AttackRate * playerData.ValueRO.UnitAttackRateModifier;
+        }
+
+        private RefRW<PlayerData> GetPlayerDataRW(PlayerTag playerTag)
         {
             foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
             {
@@ -47,10 +55,21 @@ namespace DefaultNamespace
             }
             return default;
         }
+
+        private RefRO<PlayerData> GetPlayerData(PlayerTag playerTag)
+        {
+            foreach (var playerData in SystemAPI.Query<RefRO<PlayerData>>())
+            {
+                if (playerData.ValueRO.Tag == playerTag)
+                    return playerData;
+            }
+            return default;
+        }
         
-        private bool TryGetFirstUnitTypeFromQueue(RefRW<PlayerData> playerData, out UnitType unitType)
+        private bool TryGetFirstUnitTypeFromQueue(PlayerTag playerTag, out UnitType unitType)
         {
             unitType = 0;
+            var playerData = GetPlayerDataRW(playerTag);
             var queue = playerData.ValueRO.UnitQueue;
             if (queue.IsEmpty) return false;
             unitType = queue[0];
