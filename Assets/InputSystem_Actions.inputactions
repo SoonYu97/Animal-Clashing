@@ -1048,6 +1048,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Boost1Player1",
+                    "type": "Button",
+                    "id": "1526c298-cfd5-48d7-a104-95152d7a7d7f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Boost2Player1",
+                    "type": "Button",
+                    "id": "a9264d77-9149-4f1b-8fc5-3bf261c96b4a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Boost1Player2",
+                    "type": "Button",
+                    "id": "b11294c7-f5ce-4234-a96e-ee9c61eae54d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Boost2Player2",
+                    "type": "Button",
+                    "id": "34f11dcd-9f4d-4a8a-97e6-1a467d6f98d3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1114,6 +1150,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "ClickPlayer2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc19bcf5-06f5-4a55-845b-a8ccf61cd236",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost1Player1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d620f53c-edf6-41b2-a9b3-c415c54356f7",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost2Player1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b115d4b1-d6d2-41fc-bcc6-5345494f2da5",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost2Player2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2fb3193c-2ed7-42f3-9cd8-01ff7e1dcdda",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost1Player2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

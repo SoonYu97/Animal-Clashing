@@ -16,14 +16,19 @@ namespace DefaultNamespace
         private Button[][] spawnButtons;
         private Action[][] spawnButtonClicked;
 
-        private LaneSystem laneSystem;
         private InputAction moveUpPlayer1;
         private InputAction moveDownPlayer1;
         private InputAction moveUpPlayer2;
         private InputAction moveDownPlayer2;
         private InputAction clickPlayer1;
         private InputAction clickPlayer2;
-        
+        private InputAction boost1Player1;
+        private InputAction boost2Player1;
+        private InputAction boost1Player2;
+        private InputAction boost2Player2;
+
+        private LaneSystem laneSystem;
+        private BoostSystem boostSystem;
         private GameStateManagerSystem gameStateManagerSystem;
 
         private void Awake()
@@ -41,13 +46,23 @@ namespace DefaultNamespace
             moveDownPlayer2 = gameplayActionMap.FindAction("MoveDownPlayer2");
             clickPlayer1 = gameplayActionMap.FindAction("ClickPlayer1");
             clickPlayer2 = gameplayActionMap.FindAction("ClickPlayer2");
+            boost1Player1 = gameplayActionMap.FindAction("Boost1Player1");
+            boost2Player1 = gameplayActionMap.FindAction("Boost2Player1");
+            boost1Player2 = gameplayActionMap.FindAction("Boost1Player2");
+            boost2Player2 = gameplayActionMap.FindAction("Boost2Player2");
 
             moveUpPlayer1.performed += _ => MovePlayer1Up();
             moveDownPlayer1.performed += _ => MovePlayer1Down();
             moveUpPlayer2.performed += _ => MovePlayer2Up();
             moveDownPlayer2.performed += _ => MovePlayer2Down();
-            clickPlayer1.performed += _=> laneSystem.SpawnUnitFor(PlayerTag.Player1, FindFocusedButtonIndex(spawnButtons[0]) + 1);
-            clickPlayer2.performed += _ => laneSystem.SpawnUnitFor(PlayerTag.Player2, FindFocusedButtonIndex(spawnButtons[1]) + 1);
+            clickPlayer1.performed += _ =>
+                laneSystem.SpawnUnitFor(PlayerTag.Player1, FindFocusedButtonIndex(spawnButtons[0]) + 1);
+            clickPlayer2.performed += _ =>
+                laneSystem.SpawnUnitFor(PlayerTag.Player2, FindFocusedButtonIndex(spawnButtons[1]) + 1);
+            boost1Player1.performed += _ => boostSystem.TryBoostPlayer1Unit(0);
+            boost2Player1.performed += _ => boostSystem.TryBoostPlayer1Unit(1);
+            boost1Player2.performed += _ => boostSystem.TryBoostPlayer2Unit(0);
+            boost2Player2.performed += _ => boostSystem.TryBoostPlayer2Unit(1);
         }
 
         private void OnEnable()
@@ -68,26 +83,24 @@ namespace DefaultNamespace
             moveDownPlayer2.Disable();
             clickPlayer1.Disable();
             clickPlayer2.Disable();
-            if (gameStateManagerSystem != null)
-            {
-                gameStateManagerSystem.GameEnd -= OnGameEnd;
-            }
+            if (gameStateManagerSystem != null) gameStateManagerSystem.GameEnd -= OnGameEnd;
         }
 
         private void Start()
         {
-            InitializeLaneSystem();
+            InitializeSystem();
             InitializeUIElements();
             InitializeButtonClickEvents();
             SetInitialFocus();
-            gameStateManagerSystem =
-                World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<GameStateManagerSystem>();
             gameStateManagerSystem.GameEnd += OnGameEnd;
         }
 
-        private void InitializeLaneSystem()
+        private void InitializeSystem()
         {
             laneSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<LaneSystem>();
+            boostSystem = World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<BoostSystem>();
+            gameStateManagerSystem =
+                World.DefaultGameObjectInjectionWorld.GetExistingSystemManaged<GameStateManagerSystem>();
         }
 
         private void InitializeUIElements()
@@ -114,8 +127,8 @@ namespace DefaultNamespace
 
         private void InitializeButtonForLane(int laneCount, int index)
         {
-            spawnButtons[0][index] = lanes[index].Q<Button>($"Player1SpawnButton");
-            spawnButtons[1][index] = lanes[index].Q<Button>($"Player2SpawnButton");
+            spawnButtons[0][index] = lanes[index].Q<Button>("Player1SpawnButton");
+            spawnButtons[1][index] = lanes[index].Q<Button>("Player2SpawnButton");
             spawnButtonClicked[0][index] = () => laneSystem.SpawnUnitFor(PlayerTag.Player1, laneCount);
             spawnButtonClicked[1][index] = () => laneSystem.SpawnUnitFor(PlayerTag.Player2, laneCount);
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
@@ -133,7 +146,8 @@ namespace DefaultNamespace
                 spawnButtons[0][i].RemoveFromClassList("focused");
                 spawnButtons[1][i].RemoveFromClassList("focused");
             }
-            var midLaneIndex = LaneCount % 2 == 0 ? (LaneCount / 2) : (LaneCount - 1) / 2;
+
+            var midLaneIndex = LaneCount % 2 == 0 ? LaneCount / 2 : (LaneCount - 1) / 2;
             spawnButtons[0][midLaneIndex].AddToClassList("focused");
             spawnButtons[1][midLaneIndex].AddToClassList("focused");
 #endif
@@ -159,36 +173,28 @@ namespace DefaultNamespace
         {
             var player1FocusedButton = FindFocusedButtonIndex(spawnButtons[0]);
             if (player1FocusedButton != 0)
-            {
                 SetButtonFocus(spawnButtons[0][player1FocusedButton - 1], spawnButtons[0][player1FocusedButton]);
-            }
         }
 
         private void MovePlayer1Down()
         {
             var player1FocusedButton = FindFocusedButtonIndex(spawnButtons[0]);
             if (player1FocusedButton != LaneCount - 1)
-            {
                 SetButtonFocus(spawnButtons[0][player1FocusedButton + 1], spawnButtons[0][player1FocusedButton]);
-            }
         }
 
         private void MovePlayer2Up()
         {
             var player2FocusedButton = FindFocusedButtonIndex(spawnButtons[1]);
             if (player2FocusedButton != 0)
-            {
                 SetButtonFocus(spawnButtons[1][player2FocusedButton - 1], spawnButtons[1][player2FocusedButton]);
-            }
         }
 
         private void MovePlayer2Down()
         {
             var player2FocusedButton = FindFocusedButtonIndex(spawnButtons[1]);
             if (player2FocusedButton != LaneCount - 1)
-            {
                 SetButtonFocus(spawnButtons[1][player2FocusedButton + 1], spawnButtons[1][player2FocusedButton]);
-            }
         }
 
         private static void SetButtonFocus(Button newFocusButton, Button oldFocusButton)
@@ -201,12 +207,8 @@ namespace DefaultNamespace
         private static int FindFocusedButtonIndex(Button[] buttons)
         {
             for (var i = 0; i < buttons.Length; i++)
-            {
                 if (buttons[i].ClassListContains("focused"))
-                {
                     return i;
-                }
-            }
 
             return -1;
         }

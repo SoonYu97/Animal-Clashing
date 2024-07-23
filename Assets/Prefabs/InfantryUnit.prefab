@@ -105,10 +105,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitType: 0
-  Health: 40
+  Health: 1
   Strength: 5
   Speed: 5
-  AttackRate: 20
+  AttackRate: 200
   AttackRange: 1
 --- !u!114 &5324926075402435930
 MonoBehaviour:

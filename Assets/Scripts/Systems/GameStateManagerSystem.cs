@@ -70,7 +70,8 @@ namespace DefaultNamespace
             foreach (var playerData in SystemAPI.Query<RefRW<PlayerData>>())
             {
                 playerData.ValueRW.Lives = playerData.ValueRO.InitialLives;
-                playerData.ValueRW.KillCount = playerData.ValueRO.InitialKillCount;
+                playerData.ValueRW.TotalKillCount = playerData.ValueRO.InitialKillCount;
+                playerData.ValueRW.CurrentKillCount = playerData.ValueRO.InitialKillCount;
             }
             var ecb = new EntityCommandBuffer(Allocator.TempJob);
             foreach (var (_, entity) in SystemAPI.Query<RefRO<Unit>>().WithEntityAccess())

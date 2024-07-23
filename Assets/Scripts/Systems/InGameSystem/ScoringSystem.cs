@@ -21,7 +21,8 @@ namespace DefaultNamespace
 
         public void IncreaseScore(PlayerTag tag, int score, ref SystemState state)
         {
-            GetPlayerData(tag, ref state).ValueRW.KillCount += score;
+            GetPlayerData(tag, ref state).ValueRW.TotalKillCount += score;
+            GetPlayerData(tag, ref state).ValueRW.CurrentKillCount += score;
         }
 
         private RefRW<PlayerData> GetPlayerData(PlayerTag playerTag, ref SystemState state)

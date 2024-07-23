@@ -33,7 +33,8 @@ namespace DefaultNamespace
                 {
                     Tag = authoring.Tag,
                     Lives = authoring.Lives,
-                    KillCount = 0,
+                    TotalKillCount = 0,
+                    CurrentKillCount = 0,
                     InitialLives = authoring.Lives,
                     InitialKillCount = 0
                 });
@@ -48,7 +49,8 @@ namespace DefaultNamespace
         public PlayerTag Tag;
         public FixedList32Bytes<UnitType> UnitQueue;
         public float Lives;
-        public int KillCount;
+        public int TotalKillCount;
+        public int CurrentKillCount;
         public float InitialLives;
         public int InitialKillCount;
     }
